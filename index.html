@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#0f172a">
+
+    <title>Phone Accessories Manager</title>
+
+    <link rel="stylesheet"
+          href="css/style.css">
+</head>
+
+<body>
+
+<!-- =====================================================
+     LOGIN SCREEN
+===================================================== -->
+
+<div id="loginScreen" class="login-screen">
+
+    <div class="login-card">
+
+        <div class="login-logo">
+            📱
+        </div>
+
+        <h1>
+            Accessories Manager
+        </h1>
+
+        <p class="login-subtitle">
+            Stock, Sales & Business Records
+        </p>
+
+        <form id="loginForm">
+
+            <label>
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="loginUsername"
+                placeholder="Enter username"
+                autocomplete="username"
+                required>
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter password"
+                autocomplete="current-password"
+                required>
+
+            <button
+                type="submit"
+                class="primary-btn full-btn">
+
+                🔐 Login
+
+            </button>
+
+        </form>
+
+        <div id="firstSetupMessage"
+             class="setup-message hidden">
+
+            First time here?
+            <br>
+            Create your Admin account below.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     FIRST ADMIN SETUP
+===================================================== -->
+
+<div id="setupScreen" class="login-screen hidden">
+
+    <div class="login-card">
+
+        <div class="login-logo">
+            👑
+        </div>
+
+        <h1>
+            Create Admin Account
+        </h1>
+
+        <p class="login-subtitle">
+            This account controls the system.
+        </p>
+
+        <form id="setupForm">
+
+            <label>
+                Admin Username
+            </label>
+
+            <input
+                type="text"
+                id="setupUsername"
+                placeholder="e.g. admin"
+                required>
+
+            <label>
+                Admin Password
+            </label>
+
+            <input
+                type="password"
+                id="setupPassword"
+                placeholder="Create a strong password"
+                minlength="6"
+                required>
+
+            <label>
+                Confirm Password
+            </label>
+
+            <input
+                type="password"
+                id="setupPasswordConfirm"
+                placeholder="Confirm password"
+                minlength="6"
+                required>
+
+            <button
+                type="submit"
+                class="primary-btn full-btn">
+
+                👑 Create Admin
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN APPLICATION
+===================================================== -->
+
+<div id="app" class="app hidden">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="top-header">
+
+    <div class="header-left">
+
+        <h1>
+            📱 Accessories Manager
+        </h1>
+
+        <p>
+            Stock & Business Records
+        </p>
+
+    </div>
+
+    <div class="user-area">
+
+        <div class="user-info">
+
+            <strong id="loggedInUser">
+                Admin
+            </strong>
+
+            <span id="loggedInRole">
+                Administrator
+            </span>
+
+        </div>
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="navigation">
+
+    <button
+        class="nav-btn active"
+        onclick="showSection('dashboard', this)">
+
+        🏠 Dashboard
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="showSection('products', this)">
+
+        📦 Products
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="showSection('sales', this)">
+
+        💰 Sales
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="showSection('phoneRecords', this)">
+
+        📱 Phone/Data
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="showSection('pos', this)">
+
+        🏧 POS
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="showSection('history', this)">
+
+        🧾 History
+
+    </button>
+
+
+    <button
+        id="adminNavBtn"
+        class="nav-btn admin-only"
+        onclick="showSection('admin', this)">
+
+        👑 Admin
+
+    </button>
+
+</nav>
+
+
+<main class="container">
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section
+    id="dashboard"
+    class="section active">
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Dashboard
+            </h2>
+
+            <p>
+                Quick overview of your business
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📦
+            </div>
+
+            <div>
+                <span>Total Products</span>
+
+                <strong id="totalProducts">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📊
+            </div>
+
+            <div>
+                <span>Total Stock</span>
+
+                <strong id="totalStock">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                💰
+            </div>
+
+            <div>
+                <span>Total Sales</span>
+
+                <strong id="totalSales">
+                    ₦0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📈
+            </div>
+
+            <div>
+                <span>Sales Profit</span>
+
+                <strong id="totalSalesProfit">
+                    ₦0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📱
+            </div>
+
+            <div>
+                <span>Phone/Data Profit</span>
+
+                <strong id="phoneProfit">
+                    ₦0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🏧
+            </div>
+
+            <div>
+                <span>POS Profit</span>
+
+                <strong id="posProfit">
+                    ₦0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card highlight-card">
+
+            <div class="stat-icon">
+                💎
+            </div>
+
+            <div>
+                <span>Total Business Profit</span>
+
+                <strong id="totalBusinessProfit">
+                    ₦0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                ⚠️
+            </div>
+
+            <div>
+                <span>Low Stock</span>
+
+                <strong id="lowStock">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-box">
+
+        <h3>
+            Quick Actions
+        </h3>
+
+        <div class="quick-actions">
+
+            <button onclick="openProductForm()">
+                ➕ Add Product
+            </button>
+
+            <button onclick="openSaleForm()">
+                💰 Record Sale
+            </button>
+
+            <button onclick="openPhoneRecordForm()">
+                📱 Phone/Data Record
+            </button>
+
+            <button onclick="openPOSForm()">
+                🏧 POS Record
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-box">
+
+        <h3>
+            Low Stock Products
+        </h3>
+
+        <div id="lowStockList">
+
+            <p class="empty-message">
+                No low-stock products.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PRODUCTS
+===================================================== -->
+
+<section
+    id="products"
+    class="section">
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Products
+            </h2>
+
+            <p>
+                Manage your phone accessories
+            </p>
+
+        </div>
+
+
+        <div class="title-actions">
+
+            <button
+                class="secondary-btn"
+                onclick="toggleBuyingPrices()">
+
+                🔐 View Buying Prices
+
+            </button>
+
+
+            <button
+                class="primary-btn"
+                onclick="openProductForm()">
+
+                + Add Product
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="buyingPriceStatus"
+        class="locked-message">
+
+        🔒 Buying prices are hidden.
+
+    </div>
+
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="productSearch"
+            placeholder="🔍 Search product..."
+            oninput="displayProducts()">
+
+    </div>
+
+
+    <div
+        id="productFormContainer"
+        class="form-container hidden">
+
+        <h3 id="productFormTitle">
+            Add New Product
+        </h3>
+
+
+        <form id="productForm">
+
+            <input
+                type="hidden"
+                id="editProductId">
+
+
+            <label>
+                Product Name
+            </label>
+
+            <input
+                type="text"
+                id="productName"
+                placeholder="e.g. iPhone Charger"
+                required>
+
+
+            <label>
+                Category
+            </label>
+
+            <select id="productCategory">
+
+                <option value="Chargers">Chargers</option>
+                <option value="Cables">Cables</option>
+                <option value="Earphones">Earphones</option>
+                <option value="AirPods">AirPods</option>
+                <option value="Power Banks">Power Banks</option>
+                <option value="Phone Cases">Phone Cases</option>
+                <option value="Screen Protectors">Screen Protectors</option>
+                <option value="Desktops">Desktops</option>
+                <option value="Phones">Phones</option>
+                <option value="Headsets">Headsets</option>
+                <option value="Sims">Sims</option>
+                <option value="Routers">Routers</option>
+                <option value="Tripods & Ringlights">Tripods & Ringlights</option>
+                <option value="Tablets">Tablets</option>
+                <option value="Lamps and Bulbs">Lamps and Bulbs</option>
+                <option value="Other">Other</option>
+
+            </select>
+
+
+            <label>
+                Buying Price (₦)
+            </label>
+
+            <input
+                type="number"
+                id="buyingPrice"
+                placeholder="e.g. 5000"
+                min="0"
+                required>
+
+
+            <label>
+                Selling Price (₦)
+            </label>
+
+            <input
+                type="number"
+                id="sellingPrice"
+                placeholder="e.g. 7000"
+                min="0"
+                required>
+
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                type="number"
+                id="productQuantity"
+                placeholder="e.g. 20"
+                min="0"
+                required>
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="submit"
+                    class="primary-btn">
+
+                    Save Product
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeProductForm()">
+
+                    Cancel
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <div
+        id="productList"
+        class="product-list">
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SALES
+===================================================== -->
+
+<section
+    id="sales"
+    class="section">
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Record Sale
+            </h2>
+
+            <p>
+                Record an accessory sold to a customer
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="form-container">
+
+        <form id="saleForm">
+
+            <label>
+                Select Product
+            </label>
+
+            <select
+                id="saleProduct"
+                required>
+
+                <option value="">
+                    Select a product
+                </option>
+
+            </select>
+
+
+            <label>
+                Search Product
+            </label>
+
+            <div class="sale-search-wrapper">
+
+                <input
+                    type="text"
+                    id="saleProductSearch"
+                    placeholder="🔍 Type product name to search..."
+                    autocomplete="off">
+
+                <button
+                    type="button"
+                    class="clear-search-btn"
+                    onclick="clearSaleProductSearch()">
+
+                    Clear
+
+                </button>
+
+            </div>
+
+
+            <p class="field-hint">
+                Type a product name above to quickly locate it.
+            </p>
+
+
+            <label>
+                Quantity Sold
+            </label>
+
+            <input
+                type="number"
+                id="saleQuantity"
+                min="1"
+                value="1"
+                required>
+
+
+            <label>
+                Actual Selling Price (₦)
+            </label>
+
+            <input
+                type="number"
+                id="salePrice"
+                min="0"
+                step="1"
+                placeholder="Selling price"
+                required>
+
+
+            <p class="field-hint">
+                You can change this price if the product was sold for more
+                or less than the normal selling price.
+            </p>
+
+
+            <label>
+                Customer Name
+                <span class="optional">(optional)</span>
+            </label>
+
+            <input
+                type="text"
+                id="customerName"
+                placeholder="Customer name">
+
+
+            <label>
+                Note
+                <span class="optional">(optional)</span>
+            </label>
+
+            <input
+                type="text"
+                id="saleNote"
+                placeholder="e.g. WhatsApp customer">
+
+
+            <div
+                id="salePricePreview"
+                class="sale-preview">
+
+                Select a product to see sale details.
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-btn full-btn">
+
+                💰 Complete Sale
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PHONE / DATA / RECHARGE
+===================================================== -->
+
+<section
+    id="phoneRecords"
+    class="section">
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                📱 Phone & Recharge Records
+            </h2>
+
+            <p>
+                Record phone data, recharge cards and related transactions.
+            </p>
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="openPhoneRecordForm()">
+
+            + Add Record
+
+        </button>
+
+    </div>
+
+
+    <div class="record-summary-grid">
+
+        <div class="mini-card">
+            <span>Total Amount</span>
+            <strong id="phoneTotalAmount">₦0</strong>
+        </div>
+
+        <div class="mini-card">
+            <span>Total Profit</span>
+            <strong id="phoneTotalProfit">₦0</strong>
+        </div>
+
+        <div class="mini-card">
+            <span>Total Records</span>
+            <strong id="phoneTotalRecords">0</strong>
+        </div>
+
+    </div>
+
+
+    <div
+        id="phoneRecordFormContainer"
+        class="form-container hidden">
+
+        <h3>
+            Add Phone / Recharge Record
+        </h3>
+
+
+        <form id="phoneRecordForm">
+
+            <label>
+                Record Type
+            </label>
+
+            <select id="phoneRecordType">
+
+                <option value="Phone Data">
+                    Phone Data
+                </option>
+
+                <option value="Recharge Card">
+                    Recharge Card
+                </option>
+
+                <option value="SIM">
+                    SIM
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <label>
+                Network
+            </label>
+
+            <select id="phoneNetwork">
+
+                <option value="MTN">
+                    MTN
+                </option>
+
+                <option value="Airtel">
+                    Airtel
+                </option>
+
+                <option value="Glo">
+                    Glo
+                </option>
+
+                <option value="9mobile">
+                    9mobile
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <label>
+                Description
+            </label>
+
+            <input
+                type="text"
+                id="phoneDescription"
+                placeholder="e.g. MTN 10GB Data">
+
+
+            <label>
+                Amount (₦)
+            </label>
+
+            <input
+                type="number"
+                id="phoneAmount"
+                min="0"
+                step="1"
+                placeholder="e.g. 5000"
+                required>
+
+
+            <label>
+                Profit (₦)
+            </label>
+
+            <input
+                type="number"
+                id="phoneProfit"
+                min="0"
+                step="1"
+                placeholder="e.g. 500"
+                required>
+
+
+            <label>
+                Date
+            </label>
+
+            <input
+                type="date"
+                id="phoneDate"
+                required>
+
+
+            <label>
+                Note
+                <span class="optional">(optional)</span>
+            </label>
+
+            <input
+                type="text"
+                id="phoneNote"
+                placeholder="Optional note">
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="submit"
+                    class="primary-btn">
+
+                    Save Record
+
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closePhoneRecordForm()">
+
+                    Cancel
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <div class="filter-box">
+
+        <input
+            type="date"
+            id="phoneFilterDate"
+            onchange="displayPhoneRecords()">
+
+        <button
+           
